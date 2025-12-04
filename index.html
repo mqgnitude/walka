@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Walka - Constant Visualizer</title>
+  <title>Walka - A Random walk simulator</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,8 +18,8 @@
   <div id="splash-screen">
     <div class="splash-content">
       <h1>Walka</h1>
-      <p>Visualize the hidden geometry of numbers.</p>
-      <button id="btn-start-app">Start Exploration</button>
+      <p>A Random Walk Simulator by mqgnitude</p>
+      <button id="btn-start-app">Press to Start</button>
     </div>
   </div>
 
@@ -36,7 +36,7 @@
         <button class="pill active" data-source="pi" aria-label="Load Pi">π</button>
         <button class="pill" data-source="e" aria-label="Load e">e</button>
         <button class="pill" data-source="phi" aria-label="Load Phi">φ</button>
-        <button class="pill" id="btn-custom" aria-label="Upload Custom">Up</button>
+        <button class="pill" id="btn-custom" aria-label="Upload Custom">☁️↑</button>
         <button class="pill lucky-btn" id="btn-lucky" aria-label="I'm Feeling Lucky">🎲</button>
       </div>
 
@@ -52,7 +52,7 @@
       <div class="control-group settings">
         
         <div class="slider-container">
-          <label for="slider-steps">Length: <span id="val-steps">0/10k</span></label>
+          <label for="slider-steps">Distance: <span id="val-steps">0/10k</span></label>
           <input type="range" id="slider-steps" min="100" max="50000" value="10000" step="100">
         </div>
 
@@ -63,9 +63,9 @@
 
         <div class="toggles">
           <select id="select-color" aria-label="Color Mode">
-            <option value="single">Mono</option>
+            <option value="single">Plain</option>
             <option value="angle">Angle</option>
-            <option value="rainbow">Rainbow</option>
+            <option value="rainbow">Rainbow!</option>
           </select>
           
           <button id="btn-trail" class="pill sm" aria-label="Toggle Trail Mode">Fade</button>
@@ -78,8 +78,8 @@
   <div id="modal-info" class="modal hidden">
     <div class="modal-content">
       <button id="btn-close-modal" class="close-btn">&times;</button>
-      <h2>How it works</h2>
-      <p>A digit is read from the source (e.g., Pi).</p>
+      <h2>What is this?</h2>
+      <p>Walka models a random walk, where a point moves randomly across the screen depending on the digits of a number (e.g. pi).</p>
       <ul>
         <li><strong>Direction:</strong> Digit × 36°.</li>
         <li><strong>Bounds:</strong> The line wraps around the screen.</li>
@@ -92,3 +92,4 @@
   <script src="js/sketch.js"></script>
 </body>
 </html>
+
