@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Walka - Constant Visualizer</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,52 +15,57 @@
 </head>
 <body>
 
+  <div id="splash-screen">
+    <div class="splash-content">
+      <h1>Walka</h1>
+      <p>Visualize the hidden geometry of numbers.</p>
+      <button id="btn-start-app">Start Exploration</button>
+    </div>
+  </div>
+
   <div id="ui-container">
     
     <header class="top-bar">
-      <h1>Walka</h1>
+      <h1 class="logo-text">Walka</h1>
       <button id="btn-info" class="icon-btn" aria-label="Information">?</button>
     </header>
 
     <div class="control-bar">
       
       <div class="control-group sources">
-        <button class="pill active" data-source="pi" aria-label="Load Pi">π (Pi)</button>
+        <button class="pill active" data-source="pi" aria-label="Load Pi">π</button>
         <button class="pill" data-source="e" aria-label="Load e">e</button>
-        <button class="pill" data-source="phi" aria-label="Load Phi">φ (Phi)</button>
-        <button class="pill" id="btn-custom" aria-label="Upload Custom Digits">Custom</button>
-        <button class="pill lucky-btn" id="btn-lucky" aria-label="I'm Feeling Lucky" title="Random sqrt(N) walk">Lucky 🎲</button>
+        <button class="pill" data-source="phi" aria-label="Load Phi">φ</button>
+        <button class="pill" id="btn-custom" aria-label="Upload Custom">Up</button>
+        <button class="pill lucky-btn" id="btn-lucky" aria-label="I'm Feeling Lucky">🎲</button>
       </div>
 
       <div class="control-group playback">
         <button id="btn-reset" class="icon-btn" aria-label="Reset">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
         </button>
         <button id="btn-play-pause" class="icon-btn" aria-label="Play/Pause">
-          <svg id="icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-        </button>
-        <button id="btn-export" class="icon-btn" aria-label="Export PNG" title="Download PNG">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <svg id="icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
         </button>
       </div>
 
       <div class="control-group settings">
         
         <div class="slider-container">
-          <label for="slider-speed" title="Animation Speed">Speed</label>
-          <input type="range" id="slider-speed" min="0" max="400" value="100">
+          <label for="slider-steps">Length: <span id="val-steps">0/10k</span></label>
+          <input type="range" id="slider-steps" min="100" max="50000" value="10000" step="100">
         </div>
 
         <div class="slider-container">
-          <label for="slider-steps" title="Max Steps">Max Steps</label>
-          <input type="range" id="slider-steps" min="100" max="100000" value="10000" step="100">
+          <label for="slider-speed">Speed</label>
+          <input type="range" id="slider-speed" min="0" max="400" value="100">
         </div>
 
         <div class="toggles">
           <select id="select-color" aria-label="Color Mode">
-            <option value="single">Single Color</option>
-            <option value="angle">Angle Gradient</option>
-            <option value="rainbow">Rainbow Time</option>
+            <option value="single">Mono</option>
+            <option value="angle">Angle</option>
+            <option value="rainbow">Rainbow</option>
           </select>
           
           <button id="btn-trail" class="pill sm" aria-label="Toggle Trail Mode">Fade</button>
@@ -73,18 +78,17 @@
   <div id="modal-info" class="modal hidden">
     <div class="modal-content">
       <button id="btn-close-modal" class="close-btn">&times;</button>
-      <h2>About Walka</h2>
-      <p>A visualization of mathematical constants.</p>
+      <h2>How it works</h2>
+      <p>A digit is read from the source (e.g., Pi).</p>
       <ul>
-        <li><strong>Mapping:</strong> Digits 0–9 map to angles (Digit × 36°).</li>
-        <li><strong>Lucky:</strong> Calculates √N (random 1-10k) and walks the decimals.</li>
-        <li><strong>Controls:</strong> Use spacebar to Pause.</li>
+        <li><strong>Direction:</strong> Digit × 36°.</li>
+        <li><strong>Bounds:</strong> The line wraps around the screen.</li>
+        <li><strong>Length:</strong> When "Length" is reached, the walk resets.</li>
       </ul>
     </div>
   </div>
 
   <input type="file" id="file-input" accept=".txt" style="display: none;" />
-
   <script src="js/sketch.js"></script>
 </body>
 </html>
