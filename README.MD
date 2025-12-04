@@ -1,5 +1,4 @@
-# Walka: Mathematical Constant Random Walk
-
+# Walka: Mathematical Constant Random Walk, made using the assistance of Google Gemini.
 Walka is a modern, static web tool that visualizes mathematical constants (like Pi, e, and Phi) as a 2D "random" walk. Each digit determines the direction of the next step, creating unique, mesmerizing patterns.
 
 ## Features
@@ -45,5 +44,6 @@ Walka is a modern, static web tool that visualizes mathematical constants (like 
 * **Data Files:** The included text files in `/data` are truncated samples (approx 800 digits). For longer visualization loops, please replace them with larger files from [OEIS](https://oeis.org/) or similar math repositories.
 
 ## License
+
 
 MIT License. See LICENSE file.
