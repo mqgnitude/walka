@@ -1,7 +1,8 @@
 :root {
   --bg-dark: #0b0f1a;
   --bg-darker: #081022;
-  --glass: rgba(15, 23, 42, 0.7);
+  --glass: rgba(15, 23, 42, 0.85);
+  /* Slightly more opaque for mobile readability */
   --glass-border: rgba(255, 255, 255, 0.1);
   --accent: #38bdf8;
   --accent-glow: rgba(56, 189, 248, 0.4);
@@ -25,44 +26,109 @@ body {
   color: var(--text-main);
   height: 100vh;
   width: 100vw;
+  /* Prevent bounce scroll on mobile */
+  overscroll-behavior: none;
 }
 
-/* Canvas styling handled by p5, but we ensure it's behind */
+/* Canvas styling */
 canvas {
   display: block;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 0;
+  /* Improve touch performance */
+  touch-action: none;
 }
 
-/* UI Container */
+/* --- SPLASH SCREEN --- */
+#splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-dark);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+#splash-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.splash-content h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  background: linear-gradient(to right, var(--accent), #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.splash-content p {
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+#btn-start-app {
+  padding: 12px 32px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 15px var(--accent-glow);
+  transition: transform 0.2s;
+}
+
+#btn-start-app:hover {
+  transform: scale(1.05);
+}
+
+/* --- UI Container --- */
 #ui-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* Let clicks pass to canvas where UI isn't */
+  pointer-events: none;
   z-index: 10;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
+  /* Align bottom */
   padding: 20px;
 }
 
+/* Top Bar */
 .top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
   pointer-events: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
 }
 
-h1 {
+.logo-text {
   font-size: 1.2rem;
   font-weight: 600;
-  letter-spacing: -0.02em;
   opacity: 0.8;
 }
 
@@ -75,13 +141,15 @@ h1 {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius);
-  padding: 12px 16px;
+  padding: 10px 14px;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  /* Allows wrapping on mobile */
+  justify-content: center;
   gap: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  max-width: 90vw;
-  width: auto;
+  max-width: 95vw;
+  margin-bottom: 10px;
   transition: transform 0.3s ease;
 }
 
@@ -89,8 +157,6 @@ h1 {
   display: flex;
   align-items: center;
   gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
 }
 
 /* Buttons & Pills */
@@ -100,31 +166,28 @@ button {
   color: var(--text-muted);
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: all 0.2s;
 }
 
 .pill {
-  padding: 6px 14px;
+  padding: 8px 12px;
+  /* Larger touch target */
   border-radius: 20px;
   font-size: 0.85rem;
   background: rgba(255, 255, 255, 0.03);
+  white-space: nowrap;
 }
 
-.pill:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: scale(1.05);
-  color: var(--text-main);
-}
-
+.pill:hover,
 .pill:active {
-  transform: scale(0.95);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
 }
 
 .pill.active {
   background: var(--accent);
   color: #000;
   border-color: var(--accent);
-  box-shadow: 0 0 10px var(--accent-glow);
   font-weight: 600;
 }
 
@@ -134,81 +197,77 @@ button {
 }
 
 .icon-btn {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   color: var(--text-main);
-}
-
-.icon-btn:hover {
-  background: rgba(255,255,255,0.1);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* Sliders */
 .slider-container {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  min-width: 80px;
 }
 
 .slider-container label {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--text-muted);
   text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
 }
 
 input[type=range] {
   -webkit-appearance: none;
-  width: 100px;
+  width: 100%;
   height: 4px;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 2px;
   outline: none;
+  margin-top: 5px;
 }
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
+  /* Larger thumb for touch */
   border-radius: 50%;
   background: var(--text-main);
   cursor: pointer;
-  transition: transform 0.1s;
-}
-
-input[type=range]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
+  border: 2px solid var(--bg-dark);
 }
 
 /* Select */
 select {
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   color: var(--text-main);
   border: 1px solid var(--glass-border);
-  padding: 4px 8px;
+  padding: 6px;
   border-radius: 6px;
   font-size: 0.8rem;
-  outline: none;
 }
 
 /* Modal */
 .modal {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.6);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(4px);
-  z-index: 20;
+  z-index: 200;
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: auto;
-  opacity: 1;
   transition: opacity 0.3s;
 }
 
@@ -221,8 +280,8 @@ select {
   background: #1e293b;
   padding: 24px;
   border-radius: 16px;
-  border: 1px solid var(--glass-border);
-  max-width: 400px;
+  max-width: 90%;
+  width: 400px;
   position: relative;
 }
 
@@ -235,20 +294,47 @@ select {
   color: var(--text-muted);
 }
 
-ul { margin-left: 20px; margin-top: 10px; font-size: 0.9rem; color: var(--text-muted); }
-li { margin-bottom: 6px; }
+ul {
+  margin-left: 20px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
 
-/* Responsive Adjustments */
-@media (min-width: 600px) {
+/* --- MOBILE OPTIMIZATION --- */
+@media (max-width: 600px) {
   .control-bar {
-    flex-direction: row;
+    padding: 12px;
+    width: 95%;
+    gap: 16px;
   }
-  .control-group {
-    border-right: 1px solid var(--glass-border);
-    padding-right: 12px;
+
+  /* Make rows easier to tap */
+  .control-group.sources {
+    width: 100%;
+    justify-content: space-between;
   }
-  .control-group:last-child {
-    border-right: none;
-    padding-right: 0;
+
+  .control-group.playback {
+    order: 3;
+    /* Move Play buttons to end or maintain flow */
+  }
+
+  .pill {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    flex-grow: 1;
+    /* Stretch buttons to fill width */
+    text-align: center;
+  }
+
+  .slider-container {
+    width: 45%;
+    /* Place sliders side by side */
+  }
+
+  .control-group.settings {
+    width: 100%;
+    justify-content: space-between;
   }
 }
