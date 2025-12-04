@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walka - Constant Visualizer</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body>
+
+  <div id="ui-container">
+    
+    <header class="top-bar">
+      <h1>Walka</h1>
+      <button id="btn-info" class="icon-btn" aria-label="Information">?</button>
+    </header>
+
+    <div class="control-bar">
+      
+      <div class="control-group sources">
+        <button class="pill active" data-source="pi" aria-label="Load Pi">π (Pi)</button>
+        <button class="pill" data-source="e" aria-label="Load e">e</button>
+        <button class="pill" data-source="phi" aria-label="Load Phi">φ (Phi)</button>
+        <button class="pill" id="btn-custom" aria-label="Upload Custom Digits">Custom</button>
+        <button class="pill lucky-btn" id="btn-lucky" aria-label="I'm Feeling Lucky" title="Random sqrt(N) walk">Lucky 🎲</button>
+      </div>
+
+      <div class="control-group playback">
+        <button id="btn-reset" class="icon-btn" aria-label="Reset">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        </button>
+        <button id="btn-play-pause" class="icon-btn" aria-label="Play/Pause">
+          <svg id="icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <button id="btn-export" class="icon-btn" aria-label="Export PNG" title="Download PNG">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+      </div>
+
+      <div class="control-group settings">
+        
+        <div class="slider-container">
+          <label for="slider-speed" title="Animation Speed">Speed</label>
+          <input type="range" id="slider-speed" min="0" max="400" value="100">
+        </div>
+
+        <div class="slider-container">
+          <label for="slider-steps" title="Max Steps">Max Steps</label>
+          <input type="range" id="slider-steps" min="100" max="100000" value="10000" step="100">
+        </div>
+
+        <div class="toggles">
+          <select id="select-color" aria-label="Color Mode">
+            <option value="single">Single Color</option>
+            <option value="angle">Angle Gradient</option>
+            <option value="rainbow">Rainbow Time</option>
+          </select>
+          
+          <button id="btn-trail" class="pill sm" aria-label="Toggle Trail Mode">Fade</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="modal-info" class="modal hidden">
+    <div class="modal-content">
+      <button id="btn-close-modal" class="close-btn">&times;</button>
+      <h2>About Walka</h2>
+      <p>A visualization of mathematical constants.</p>
+      <ul>
+        <li><strong>Mapping:</strong> Digits 0–9 map to angles (Digit × 36°).</li>
+        <li><strong>Lucky:</strong> Calculates √N (random 1-10k) and walks the decimals.</li>
+        <li><strong>Controls:</strong> Use spacebar to Pause.</li>
+      </ul>
+    </div>
+  </div>
+
+  <input type="file" id="file-input" accept=".txt" style="display: none;" />
+
+  <script src="js/sketch.js"></script>
+</body>
+</html>
